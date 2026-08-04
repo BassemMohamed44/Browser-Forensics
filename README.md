@@ -8,7 +8,7 @@
 
 <div align="center">
   <img src="https://img.shields.io/static/v1?label=Python&message=3.14.5&color=4C0099" alt="python"/>
-  <img src="https://img.shields.io/static/v1?label=macOS&message=Tahoe 26.6&color=4C0099" alt="macOS"/>
+  <img src="https://img.shields.io/static/v1?label=macOS&message=Tahoe26.6&color=4C0099" alt="macOS"/>
   <img src="https://img.shields.io/static/v1?label=Linux&message=7.1.6&color=4C0099" alt="linux"/>
   <br>
   <img src="https://img.shields.io/static/v1?label=Browser&message=Engine&color=4C0099" alt="browser"/>
