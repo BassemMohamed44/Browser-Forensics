@@ -7,12 +7,12 @@
 <div align="center">
 
 <div align="center">
-  <img src="https://img.shields.io/static/v1?label=Python&message=3.14.5&color=4C0099" alt="platform"/>
-  <img src="https://img.shields.io/static/v1?label=macOS&message=Tahoe 26.6&color=4C0099" alt="language"/>
-  <img src="https://img.shields.io/static/v1?label=Linux&message=7.1.6&color=4C0099" alt="assembly"/>
+  <img src="https://img.shields.io/static/v1?label=Python&message=3.14.5&color=4C0099" alt="python"/>
+  <img src="https://img.shields.io/static/v1?label=macOS&message=Tahoe 26.6&color=4C0099" alt="macOS"/>
+  <img src="https://img.shields.io/static/v1?label=Linux&message=7.1.6&color=4C0099" alt="linux"/>
   <br>
-  <img src="https://img.shields.io/static/v1?label=Browser&message=Engine&color=4C0099" alt="bootloader"/>
-  <img src="https://img.shields.io/static/v1?label=Windows11&message=26H1&color=4C0099" alt="status"/>
+  <img src="https://img.shields.io/static/v1?label=Browser&message=Engine&color=4C0099" alt="browser"/>
+  <img src="https://img.shields.io/static/v1?label=Windows11&message=26H1&color=4C0099" alt="win"/>
   <br>
    <img src="https://img.shields.io/static/v1?label=License&message=MIT&color=4C0099" alt="license"/>
 </div>
