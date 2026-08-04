@@ -1,9 +1,37 @@
-# Browser Forensics
+<div align="center">
+  <img width="260" height="260" src="assets/Browser Forensics.png" alt="Browser-Forensics-icon"/>
+  <h1 align="center">Browser Forensics</h1>
+  <p align="center">A standard-library-only, command-line tool that extracts browsing history from every profile of every major browser installed on your machine — on **Windows, macOS, or Linux** — and exports it to clean JSON / TXT files, along with duplicate-visit and top-sites statistics.</p>
+</div>
 
-A standard-library-only, command-line tool that extracts browsing history
-from every profile of every major browser installed on your machine — on
-**Windows, macOS, or Linux** — and exports it to clean JSON / TXT files,
-along with duplicate-visit and top-sites statistics.
+<div align="center">
+
+<div align="center">
+  <img src="https://img.shields.io/static/v1?label=Python&message=3.14.5&color=4C0099" alt="platform"/>
+  <img src="https://img.shields.io/static/v1?label=macOS&message=Tahoe 26.6&color=4C0099" alt="language"/>
+  <img src="https://img.shields.io/static/v1?label=Linux&message=7.1.6&color=4C0099" alt="assembly"/>
+  <br>
+  <img src="https://img.shields.io/static/v1?label=Browser&message=Engine&color=4C0099" alt="bootloader"/>
+  <img src="https://img.shields.io/static/v1?label=Windows11&message=26H1&color=4C0099" alt="status"/>
+  <br>
+   <img src="https://img.shields.io/static/v1?label=License&message=MIT&color=4C0099" alt="license"/>
+</div>
+<br>
+
+<div align="center">
+  
+  [![Instagram](https://img.shields.io/badge/Instagram-%23E4405F.svg?style=for-the-badge&logo=Instagram&logoColor=white)](https://instagram.com/@bassemmohamed_0)
+  [![Reddit](https://img.shields.io/badge/Reddit-%23FF4500.svg?style=for-the-badge&logo=Reddit&logoColor=white)](https://reddit.com/user/00xBassem)
+  [![X](https://img.shields.io/badge/X-black.svg?style=for-the-badge&logo=X&logoColor=white)](https://x.com/@Basem2Mohamed)
+  
+</div>
+
+<p align="center">Made possible by <a href="https://bassemmohamed.pages.dev/"><strong>BassemMohamed</strong></a></p>
+
+# Screenshots
+### Start <br>
+<img src="assets/Screenshot 1.png" alt="Start"  width="800">
+
 
 ## Supported Browsers
 
