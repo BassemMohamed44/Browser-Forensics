@@ -6,7 +6,7 @@ Thanks for considering a contribution to Browser Forensics.
 
 ```bash
 git clone <your-fork-url>
-cd BrowserHistoryExporter
+cd Browser Forensics
 pip install -e ".[dev]"
 ```
 
