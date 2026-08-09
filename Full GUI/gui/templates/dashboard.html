@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Browser History Exporter — Dashboard</title>
+  <link rel="icon" href="data:,">
+  <script>
+    (function () {
+      var saved = localStorage.getItem("bhe-theme");
+      document.documentElement.setAttribute("data-theme", saved === "light" ? "light" : "dark");
+    })();
+  </script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+
+<body>
+  <div class="app">
+
+    <!-- ============ SIDEBAR ============ -->
+    <aside class="sidebar">
+      <div class="brand">
+        <i data-lucide="shield-check" class="brand-icon"></i>
+        <span>Browser Forensics</span>
+      </div>
+
+      <div class="brand-mark">
+        <i data-lucide="fingerprint"></i>
+      </div>
+
+      <nav class="nav">
+        <a class="nav-item active" data-section="dashboard">
+          <i data-lucide="layout-dashboard"></i> Dashboard
+        </a>
+        <a class="nav-item" data-action="scan">
+          <i data-lucide="scan-line"></i> Scan
+        </a>
+        <a class="nav-item" data-focus="keyword">
+          <i data-lucide="search"></i> Search
+        </a>
+        <a class="nav-item" data-focus="stats">
+          <i data-lucide="bar-chart-3"></i> Statistics
+        </a>
+        <a class="nav-item" data-focus="logs">
+          <i data-lucide="list"></i> Logs
+        </a>
+
+      </nav>
+
+      <div class="sidebar-status">
+        <div class="status-pill" id="status-pill">
+          <i data-lucide="check-circle-2"></i>
+          <div>
+            <div class="status-title" id="status-title">Ready</div>
+            <div class="status-sub" id="status-sub">Run a scan to begin</div>
+          </div>
+        </div>
+        <div class="status-bar">
+          <div class="status-bar-fill" id="status-bar-fill"></div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ============ MAIN ============ -->
+    <main class="main">
+
+      <header class="topbar">
+        <div>
+          <h1>Dashboard</h1>
+          <p>Overview of exported browser history and scan activity</p>
+        </div>
+        <div class="topbar-actions">
+          <button class="theme-chip" id="theme-toggle" type="button">
+            <i data-lucide="moon"></i> <span id="theme-label">Dark</span>
+          </button>
+          <div class="export-split">
+            <button class="btn btn-primary" id="btn-export-json">
+              <i data-lucide="download"></i> Export Report
+            </button>
+            <div class="export-menu">
+              <button data-format="json">JSON</button>
+              <button data-format="csv">CSV</button>
+              <button data-format="txt">TXT</button>
+              <button data-format="all">All formats</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- ============ STAT CARDS ============ -->
+      <section class="cards" id="cards">
+        <div class="card">
+          <div class="card-icon icon-blue"><i data-lucide="globe"></i></div>
+          <div class="card-body">
+            <div class="card-label">Total Browsers</div>
+            <div class="card-value" data-field="total_browsers">—</div>
+            <div class="card-sub">Browsers Detected</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon icon-green"><i data-lucide="users"></i></div>
+          <div class="card-body">
+            <div class="card-label">Total Profiles</div>
+            <div class="card-value" data-field="total_profiles">—</div>
+            <div class="card-sub">Profiles Found</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon icon-purple"><i data-lucide="file-clock"></i></div>
+          <div class="card-body">
+            <div class="card-label">History Records</div>
+            <div class="card-value" data-field="history_records">—</div>
+            <div class="card-sub">Total Records</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon icon-cyan"><i data-lucide="link-2"></i></div>
+          <div class="card-body">
+            <div class="card-label">Unique Domains</div>
+            <div class="card-value" data-field="unique_domains">—</div>
+            <div class="card-sub">Distinct Sites</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon icon-orange"><i data-lucide="copy"></i></div>
+          <div class="card-body">
+            <div class="card-label">Duplicates</div>
+            <div class="card-value" data-field="duplicate_visits">—</div>
+            <div class="card-sub">Duplicate Visits</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-icon icon-red"><i data-lucide="alert-triangle"></i></div>
+          <div class="card-body">
+            <div class="card-label">Read Errors</div>
+            <div class="card-value" data-field="read_errors">—</div>
+            <div class="card-sub">Skipped Profiles</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ MAIN LAYOUT: wide column + side column ============ -->
+      <section class="layout">
+
+        <div class="col-main">
+
+          <div class="panel">
+            <div class="panel-header">
+              <h2><i data-lucide="activity"></i> Activity Timeline</h2>
+            </div>
+            <canvas id="chart-timeline" height="90"></canvas>
+            <div class="empty-hint" id="timeline-empty">Run a scan to see activity over time.</div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h2><i data-lucide="trophy"></i> Top Visited Websites</h2>
+            </div>
+            <table class="table" id="table-top-sites">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Website</th>
+                  <th>Visits</th>
+                  <th>Last Visit</th>
+                  <th>Browser</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            </table>
+            <div class="empty-hint" id="top-sites-empty">No data yet.</div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h2><i data-lucide="clipboard-list"></i> Recent Activity / Logs</h2>
+            </div>
+            <div class="log-list" id="log-list">
+              <div class="empty-hint show">No activity yet — run a scan.</div>
+            </div>
+          </div>
+
+          <div class="panel" id="stats">
+            <div class="panel-header">
+              <h2><i data-lucide="clipboard-check"></i> Summary</h2>
+            </div>
+            <ul class="summary-list" id="summary-list"></ul>
+          </div>
+
+        </div>
+
+        <!-- -------- Side column: everything else, stacked -------- -->
+        <div class="col-side">
+
+          <div class="panel">
+            <div class="panel-header">
+              <h2><i data-lucide="pie-chart"></i> Browsers Overview</h2>
+            </div>
+            <div class="donut-wrap">
+              <canvas id="chart-donut" width="180" height="180"></canvas>
+              <div class="donut-center">
+                <div class="donut-total" id="donut-total">0</div>
+                <div class="donut-label">Records</div>
+              </div>
+            </div>
+            <ul class="legend" id="donut-legend"></ul>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h2><i data-lucide="bar-chart-2"></i> Visits by Day</h2>
+            </div>
+            <canvas id="chart-bar" height="110"></canvas>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h2><i data-lucide="grid-3x3"></i> Visit Distribution (Hour × Day)</h2>
+            </div>
+            <div id="heatmap"></div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h2><i data-lucide="zap"></i> Quick Actions</h2>
+            </div>
+            <div class="quick-actions">
+              <button class="qa-btn" id="qa-scan"><i data-lucide="play-circle"></i> Start New Scan</button>
+              <button class="qa-btn" id="qa-export-csv"><i data-lucide="table"></i> Export CSV</button>
+              <button class="qa-btn" id="qa-search-focus"><i data-lucide="search"></i> Jump to Search</button>
+              <button class="qa-btn" id="qa-export-all"><i data-lucide="package"></i> Export All Formats</button>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-header">
+              <h2><i data-lucide="sliders-horizontal"></i> Filters</h2>
+            </div>
+            <form class="filters" id="filters-form">
+              <label>Browser
+                <select id="f-browser">
+                  <option value="all">All Browsers</option>
+                </select>
+              </label>
+              <label>Profile
+                <select id="f-profile">
+                  <option value="all">All Profiles</option>
+                </select>
+              </label>
+              <label>Date Range
+                <div class="date-range">
+                  <input type="date" id="f-date-from">
+                  <input type="date" id="f-date-to">
+                </div>
+              </label>
+              <label>Keyword
+                <div class="input-icon">
+                  <i data-lucide="search"></i>
+                  <input type="text" id="f-keyword" placeholder="Search title or URL...">
+                </div>
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" id="f-duplicates" checked> Include Duplicates
+              </label>
+              <label class="checkbox-row">
+                <input type="checkbox" id="f-topsites"> Top Sites Only
+              </label>
+              <button type="submit" class="btn btn-primary btn-block">
+                <i data-lucide="filter"></i> Apply Filters
+              </button>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="cdn-banner" id="cdn-banner">
+    <strong>Some optional visuals couldn't load from the internet.</strong>
+    Charts and/or icons need a CDN connection the first time you open this
+    page; on a restrictive network they may be blocked. The dashboard still
+    works — numbers, tables, filters, and export are unaffected — but charts
+    or icons may be missing. Try a different network, or disable any VPN/
+    ad-blocker for this page and reload.
+  </div>
+
+  <script>
+    function loadScript(urls, globalCheck, index) {
+      index = index || 0;
+      return new Promise(function (resolve, reject) {
+        if (index >= urls.length) { reject(new Error("all sources failed for: " + urls[0])); return; }
+        var s = document.createElement("script");
+        s.src = urls[index];
+        s.onload = function () {
+          if (globalCheck()) {
+            resolve();
+          } else {
+            s.remove();
+            loadScript(urls, globalCheck, index + 1).then(resolve, reject);
+          }
+        };
+        s.onerror = function () {
+          s.remove();
+          loadScript(urls, globalCheck, index + 1).then(resolve, reject);
+        };
+        document.head.appendChild(s);
+      });
+    }
+
+    var CHART_SOURCES = [
+      "https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js",
+      "https://unpkg.com/chart.js@4.4.1/dist/chart.umd.min.js",
+    ];
+    var LUCIDE_SOURCES = [
+      "https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.js",
+      "https://unpkg.com/lucide@0.469.0/dist/umd/lucide.js",
+    ];
+
+    Promise.allSettled([
+      loadScript(CHART_SOURCES, function () { return typeof window.Chart !== "undefined"; }),
+      loadScript(LUCIDE_SOURCES, function () { return typeof window.lucide !== "undefined"; }),
+    ]).then(function (results) {
+      var chartFailed = results[0].status === "rejected";
+      var lucideFailed = results[1].status === "rejected";
+      if (chartFailed) console.warn("Chart.js could not be loaded from any source - charts will be disabled.");
+      if (lucideFailed) console.warn("lucide could not be loaded from any source - icons will be disabled.");
+      if (chartFailed || lucideFailed) {
+        document.getElementById("cdn-banner").classList.add("show");
+      }
+      var s = document.createElement("script");
+      s.src = "{{ url_for('static', filename='js/dashboard.js') }}";
+      document.body.appendChild(s);
+    });
+  </script>
+</body>
+
+</html>
