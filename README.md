@@ -1,7 +1,7 @@
 <div align="center">
   <img width="260" height="260" src="assets/Browser Forensics.png" alt="Browser-Forensics-icon"/>
   <h1 align="center">Browser Forensics</h1>
-  <p align="center">A standard-library-only, command-line tool that extracts browsing history from every profile of every major browser installed on your machine — on **Windows, macOS, or Linux** — and exports it to clean JSON / TXT files, along with duplicate-visit and top-sites statistics.</p>
+  <p align="center">A cross-platform browser history analysis and digital forensics utility with both <strong>CLI</strong> and <strong>GUI</strong> interfaces. It extracts browsing history from every profile of every major browser installed on your machine — on <strong>Windows, macOS, or Linux</strong> — and provides filtering, search, statistics, and JSON / TXT / CSV export capabilities.</p>
 </div>
 
 <div align="center">
@@ -28,9 +28,24 @@
 
 <p align="center">Made possible by <a href="https://bassemmohamed.pages.dev/"><strong>BassemMohamed</strong></a></p>
 
-# Screenshots
-### Start <br>
-<img src="assets/Screenshot 1.png" alt="Start"  width="800">
+# Interfaces
+
+Browser Forensics is available through two interfaces:
+
+- **CLI** — a lightweight command-line interface for terminal-based workflows, scripting, automation, and advanced users.
+- **GUI** — a graphical interface for interactive browser history analysis, searching, filtering, statistics, and exporting.
+
+Both interfaces are part of the same Browser Forensics project.
+
+## Screenshots
+
+### CLI
+<img src="assets/Screenshot 1.png" alt="Browser Forensics CLI" width="800">
+
+### GUI
+<img src="assets/Screenshot-GUI 1.png" alt="Browser Forensics GUI" width="800">
+<br>
+<img src="assets/Screenshot-GUI 2.jpg" alt="Browser Forensics GUI" width="800">
 
 
 ## Supported Browsers
@@ -95,12 +110,19 @@ BrowserHistoryExporter/
 
 ## Requirements
 
+### CLI
+
 - Python 3.9+
 - Standard library only at runtime (`sqlite3`, `os`, `pathlib`, `json`,
   `csv`, `shutil`, `tempfile`, `datetime`, `platform`, `logging`,
   `concurrent.futures`, `collections`) — no third-party dependencies.
   `pytest` is only needed to run the test suite (see below).
 - At least one supported browser installed on the machine.
+
+### GUI
+
+The repository also includes a graphical interface. See the GUI entry point
+and project files for the GUI-specific runtime requirements.
 
 > **Tip:** For the most complete and consistent snapshot, close your
 > browsers before running an export. The tool copies each database (and its
@@ -109,6 +131,10 @@ BrowserHistoryExporter/
 > a lock long enough to cause a skipped profile.
 
 ## Usage
+
+### CLI
+
+Run the command-line interface:
 
 ```bash
 python main.py
@@ -146,6 +172,15 @@ Browser History Exporter
 - Every run also writes a detailed log file to `output/logs/run_<timestamp>.log`
   (full detail, for debugging) in addition to the console output you see
   (a friendlier summary).
+
+### GUI
+
+Browser Forensics also includes a graphical user interface for users who prefer
+interactive analysis instead of a terminal workflow.
+
+The GUI provides a visual way to work with the project's browser-history
+analysis capabilities, including browsing the collected records, searching,
+filtering, viewing statistics, and exporting results.
 
 ## Each Exported Record Contains
 
