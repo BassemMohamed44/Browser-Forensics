@@ -94,7 +94,7 @@ to change.
 ## Project Structure
 
 ```
-BrowserHistoryExporter/
+Browser-Forensics/
 ├── main.py             # CLI entry point / menu
 ├── browsers.py          # Registry: browser -> engine + per-platform data path
 ├── profiles.py          # Detects every profile of every installed browser
@@ -144,7 +144,7 @@ You'll see a menu:
 
 ```
 ====================================
-Browser History Exporter
+Browser Forensics
 ====================================
 
 1. Export ALL History (all browsers)
@@ -268,12 +268,12 @@ pytest
 ## Packaging
 
 The project includes a `pyproject.toml` so it can be installed as a
-regular Python package (and exposes a `browser-history-exporter` console
+regular Python package (and exposes a `browser-forensics` console
 command):
 
 ```bash
 pip install .
-browser-history-exporter
+browser-forensics
 # or, for development with the test dependencies:
 pip install -e ".[dev]"
 ```
